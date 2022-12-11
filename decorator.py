@@ -15,5 +15,4 @@ def input_error(func):
             return "Вводити потрібно (Ім'я та наступна інформація)"
         except PathError:
             return "Потрібно ввести корректний шлях до папки."
-
     return wrapper

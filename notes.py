@@ -57,12 +57,12 @@ class Notes:
         return dict(sorted(self.notes.items(), key=lambda item: item[1].note_text))
 
     def save_notes_to_file(self):
-        with open("notes.pickle", "wb") as file:
+        with open('notes.pickle', 'wb') as file:
             pickle.dump(self.notes, file)
 
     def load_notes_from_file(self):
         try:
-            with open("notes.pickle", "rb") as file:
+            with open('notes.pickle', 'rb') as file:
                 self.notes = pickle.load(file)
 
                 if self.notes:

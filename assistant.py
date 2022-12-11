@@ -8,7 +8,7 @@ def main():
             command_input = input("Enter command: ")
             result = parse_input(command_input)
             print(result)
-            if result == "good bye":
+            if result == 'good bye':
                 break
     finally:
         bot.save_data()

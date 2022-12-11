@@ -6,5 +6,4 @@ def input_error_notes(func):
             return f"Key Error - Note with id[{e}] doesn't exist"
         except ValueError as e:
             return f"Value Error - {e}, you must input ID at first. "
-
     return wrapper

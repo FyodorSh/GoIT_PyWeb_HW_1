@@ -7,6 +7,7 @@ from abc import abstractmethod, ABC
 
 
 class IBot(ABC):
+
     @staticmethod
     @abstractmethod
     def get_help():
@@ -124,7 +125,7 @@ class Bot(IBot):
 
     @staticmethod
     def get_help():
-        instruction = """
+        instruction = '''
             Start: hello or hi
             Add new contact: add record /name/ /phone phone .../
             Add phone: add phone /name/ /phone/
@@ -148,7 +149,7 @@ class Bot(IBot):
             Search notes by tags: search tags /tag tag .../
             Sort notes: sort notes
             Quit: stop, exit, close, good bye
-        """
+        '''
         return instruction
 
     @staticmethod
@@ -158,62 +159,62 @@ class Bot(IBot):
 
     @staticmethod
     def hello_function():
-        return "How can i help you?"
+        return 'How can i help you?'
 
     @input_error
     def add_record(self, data: str) -> str:
-        name, *phones = data.strip().split(" ")
+        name, *phones = data.strip().split(' ')
         if name in self.address_book:
-            raise ValueError("This contact already exist.")
+            raise ValueError('This contact already exist.')
         record = Record(name)
 
         for phone in phones:
             record.add_phone(phone)
 
         self.address_book.add_record(record)
-        return f"You added new contact: {name} with this {phones}."
+        return f'You added new contact: {name} with this {phones}.'
 
     @input_error
     def add_phone_func(self, data: str) -> str:
-        name, phone = data.strip().split(" ", 1)
+        name, phone = data.strip().split(' ', 1)
         record = self.address_book[name]
         record.add_phone(phone)
-        return "You added phone"
+        return 'You added phone'
 
     @input_error
     def change_phone(self, data: str) -> str:
-        name, *phones = data.strip().split(" ")
+        name, *phones = data.strip().split(' ')
         record = self.address_book[name]
         record.change_phones(phones)
-        return "You changed phones."
+        return 'You changed phones.'
 
     @input_error
     def delete_phone(self, data: str) -> str:
-        name, phone = data.strip().split(" ", 1)
+        name, phone = data.strip().split(' ', 1)
 
         record = self.address_book[name]
         if record.delete_phone(phone):
-            return f"Phone {phone} for {name} contact deleted."
-        return f"{name} contact does not have this number"
+            return f'Phone {phone} for {name} contact deleted.'
+        return f'{name} contact does not have this number'
 
     @input_error
     def search_function(self, value):
 
         records = self.address_book.search(value)
 
-        search_records = "\n".join([record.get_info() for record in records])
+        search_records = '\n'.join([record.get_info() for record in records])
         return search_records
 
     @input_error
     def show_function(self):
-        contacts = ""
+        contacts = ''
         page_number = 1
 
         for page in self.address_book.iterator():
-            contacts += f"Page №{page_number}\n"
+            contacts += f'Page №{page_number}\n'
 
             for record in page:
-                contacts += f"{record.get_info()}\n"
+                contacts += f'{record.get_info()}\n'
                 page_number += 1
 
         return contacts
@@ -237,7 +238,7 @@ class Bot(IBot):
         records = self.address_book.get_birthdays_in_range(value)
 
         if not records:
-            return "Відсутні контакти з днем народження в данному діапазоні"
+            return 'Відсутні контакти з днем народження в данному діапазоні'
 
         for record in records:
             records_info += f"{record.get_info()}\n"
@@ -328,7 +329,7 @@ class Bot(IBot):
         if not search_results:
             return "There are no notes with these tags"
 
-        output = ""
+        output = ''
 
         for tag in sorted(search_results):
             output += f"Tag - {tag}:\n"

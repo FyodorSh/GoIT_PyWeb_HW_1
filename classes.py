@@ -35,16 +35,15 @@ class Name(Field):
 
 
 class Phone(Field):
+
     @Field.value.setter
     def value(self, value):
 
         if not value.isnumeric():
             raise ValueError("Вводу підлягають лише цифри")
 
-        if not value.startswith("38"):
-            raise ValueError(
-                "На разі підтримуються тільки номера України (Приклад: 380995678344)"
-            )
+        if not value.startswith('38'):
+            raise ValueError("На разі підтримуються тільки номера України (Приклад: 380995678344)")
 
         if len(value) != 12:
             raise ValueError("Перевірте довжину номера")
@@ -53,6 +52,7 @@ class Phone(Field):
 
 
 class Email(Field):
+
     @Field.value.setter
     def value(self, value):
         if not re.match(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$", value):
@@ -62,6 +62,7 @@ class Email(Field):
 
 
 class Address(Field):
+
     @Field.value.setter
     def value(self, value):
         if not value:
@@ -71,6 +72,7 @@ class Address(Field):
 
 
 class Birthday(Field):
+
     @Field.value.setter
     def value(self, value):
         today = datetime.now().date()
@@ -91,22 +93,22 @@ class Record:
 
     def get_info(self):
 
-        birthday_info = ""
-        email_info = ""
-        address_info = ""
+        birthday_info = ''
+        email_info = ''
+        address_info = ''
 
-        phones_info = ", ".join([phone.value for phone in self.phones])
+        phones_info = ', '.join([phone.value for phone in self.phones])
 
         if self.birthday:
-            birthday_info = f" Birthday : {self.birthday.value}"
+            birthday_info = f' Birthday : {self.birthday.value}'
 
         if self.email:
-            email_info = f" Email : {self.email.value}"
+            email_info = f' Email : {self.email.value}'
 
         if self.address:
-            address_info = f" Address : {self.address.value}"
+            address_info = f' Address : {self.address.value}'
 
-        return f"{self.name.value} : {phones_info}{birthday_info}{email_info}{address_info}"
+        return f'{self.name.value} : {phones_info}{birthday_info}{email_info}{address_info}'
 
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
@@ -138,7 +140,9 @@ class Record:
             next_birthday_year = next_birthday_year + 1
 
         next_birthday = datetime(
-            year=next_birthday_year, month=birthday.month, day=birthday.day
+            year=next_birthday_year,
+            month=birthday.month,
+            day=birthday.day
         )
 
         return (next_birthday.date() - today).days
@@ -213,12 +217,12 @@ class AddressBook(UserDict):
         return birthdays
 
     def save_contacts_to_file(self):
-        with open("address_book.pickle", "wb") as file:
+        with open('address_book.pickle', 'wb') as file:
             pickle.dump(self.data, file)
 
     def load_contacts_from_file(self):
         try:
-            with open("address_book.pickle", "rb") as file:
+            with open('address_book.pickle', 'rb') as file:
                 self.data = pickle.load(file)
         except FileNotFoundError:
             pass
